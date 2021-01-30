@@ -3,6 +3,8 @@
    <application
         android:label="gmaps_pt_dir_cmp"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="${gmapsKey}"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
