@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="dev.alexmahon.gmaps_pt_dir_cmp">
+   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
    <application
         android:label="gmaps_pt_dir_cmp"
         android:icon="@mipmap/ic_launcher">

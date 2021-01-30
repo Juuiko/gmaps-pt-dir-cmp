@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 void main() {
@@ -30,12 +32,20 @@ class _MapViewState extends State<MapView> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
-    // Initial location of the Map view
     CameraPosition _initialLocation = CameraPosition(target: LatLng(0.0, 0.0));
+    GoogleMapController _controller;
+    Location _location = Location();
 
-    // For controlling the view of the Map
-    GoogleMapController mapController;
-
+    void _onMapCreated(GoogleMapController _cntlr) {
+      _controller = _cntlr;
+      _location.onLocationChanged.listen((l) {
+        _controller.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(target: LatLng(l.latitude, l.longitude), zoom: 15),
+          ),
+        );
+      });
+    }
 
     return Container(
       height: height,
@@ -46,14 +56,13 @@ class _MapViewState extends State<MapView> {
             GoogleMap(
               initialCameraPosition: _initialLocation,
               myLocationEnabled: true,
-              myLocationButtonEnabled: false,
               mapType: MapType.normal,
               zoomGesturesEnabled: true,
               zoomControlsEnabled: false,
               onMapCreated: (GoogleMapController controller) {
-                mapController = controller;
+                _onMapCreated(controller);
               },
-            ),
+            )
           ],
         ),
       ),
